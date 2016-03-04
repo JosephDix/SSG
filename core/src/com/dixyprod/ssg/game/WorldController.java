@@ -116,7 +116,7 @@ public class WorldController extends InputAdapter {
         if (Gdx.input.isKeyPressed(Keys.A)) updateTestObjects(deltaTime, 'l');
         if (Gdx.input.isKeyPressed(Keys.D)) updateTestObjects(deltaTime, 'r');
         float x = (float) (Math.sin(Math.toRadians(-testSprites[selectedSprite].getRotation())) * sprMoveSpeed);
-        float y = (float) (Math.cos(Math.toRadians(-testSprites[selectedSprite].getRotation())) * sprMoveSpeed);;
+        float y = (float) (Math.cos(Math.toRadians(-testSprites[selectedSprite].getRotation())) * sprMoveSpeed);
         //testSprites[selectedSprite].getRotation();
         if (Gdx.input.isKeyPressed(Keys.W)) moveSelectedSprite(x, y);
         if (Gdx.input.isKeyPressed(Keys.S)) moveSelectedSprite(-x, -y);
