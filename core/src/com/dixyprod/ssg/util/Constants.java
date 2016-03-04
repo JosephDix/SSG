@@ -10,7 +10,4 @@ public class Constants {
     //Visible world is 4 meters tall
     public static final float VIEWPORT_HEIGHT = 5.0f;
 
-    public static enum entityTypes{
-        PLAYER, PROJECTILE, NPC, STATION
-    };
 }

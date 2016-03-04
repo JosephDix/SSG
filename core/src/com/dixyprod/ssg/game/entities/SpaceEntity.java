@@ -1,4 +1,4 @@
-package com.dixyprod.ssg.game;
+package com.dixyprod.ssg.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,6 +8,13 @@ import com.dixyprod.ssg.util.Constants;
  * Created by Dixy on 04/03/2016.
  */
 public abstract class SpaceEntity {
+    enum Alignment {
+        FRIENDLY, NEUTRAL, HOSTILE
+    };
+    enum EntityTypes{
+        PLAYER, PROJECTILE, NPC, STATION
+    };
+
     float xPos, yPos;
     //float xOffset, yOffset;
     float xSpeed, ySpeed;
@@ -17,15 +24,38 @@ public abstract class SpaceEntity {
     float direction;
     boolean onScreen;
     boolean alive;
-    enum allignment {
-        FRIENDLY, NEUTRAL, HOSTILE
-    };
+    Alignment alignment;
+    EntityTypes entityTypes;
+
     Texture entityTexture;
     Sprite entitySprite;
 
     //update the integrity (health) of an entity
     //shield integrity is depleted first, then armour and then structure
     //only shield integrity is rechargeable
+
+
+    public SpaceEntity(float xPos, float yPos, float xSpeed, float ySpeed, float maxVelocity, int structureIntegrity,
+                       int armourIntegrity, int shieldIntegrity, String uniqueId, float direction, boolean onScreen,
+                       boolean alive, Alignment alignment, EntityTypes entityTypes, Texture entityTexture, Sprite
+                               entitySprite) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
+        this.maxVelocity = maxVelocity;
+        this.structureIntegrity = structureIntegrity;
+        this.armourIntegrity = armourIntegrity;
+        this.shieldIntegrity = shieldIntegrity;
+        this.uniqueId = uniqueId;
+        this.direction = direction;
+        this.onScreen = onScreen;
+        this.alive = alive;
+        this.alignment = alignment;
+        this.entityTypes = entityTypes;
+        this.entityTexture = entityTexture;
+        this.entitySprite = entitySprite;
+    }
 
     public boolean updateIntegrity(int modifier) {
         if (modifier < 0) { // condition if integrity reduced
@@ -64,7 +94,7 @@ public abstract class SpaceEntity {
     //projectiles
     //space stations
     //NPCs not implemented yet / handled in player hit detection
-    protected boolean hitDetection(float x, float y, float xOff, float yOff, Constants.entityTypes from){
+    protected boolean hitDetection(float x, float y, float xOff, float yOff, EntityTypes from){
          switch(from){
              case PLAYER:
 
@@ -84,4 +114,6 @@ public abstract class SpaceEntity {
 
         return  false;
     }
+
+
 }
