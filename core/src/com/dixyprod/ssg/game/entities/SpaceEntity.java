@@ -95,6 +95,7 @@ public abstract class SpaceEntity {
     //space stations
     //NPCs not implemented yet / handled in player hit detection
     protected boolean hitDetection(float x, float y, float xOff, float yOff, EntityTypes from){
+        //TODO write hit detection
          switch(from){
              case PLAYER:
 

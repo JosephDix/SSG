@@ -45,4 +45,6 @@ public abstract class SpaceShip extends SpaceEntity {
         this.shieldRegen = shieldRegen;
         this.shipType = shipType;
     }
+
+    //TODO write "weapon firing" code
 }
