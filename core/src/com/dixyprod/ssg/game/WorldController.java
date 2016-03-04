@@ -29,6 +29,7 @@ public class WorldController extends InputAdapter {
         Gdx.input.setInputProcessor(this);
         cameraHelper = new CameraHelper();
         initTestObjects();
+        cameraHelper.setTarget(cameraHelper.hasTarget() ? null : testSprites[selectedSprite]);
     }
 
     @Override
@@ -61,9 +62,10 @@ public class WorldController extends InputAdapter {
         // Create empty POT-sized Pixmap with 8 bit RGBA pixel data
         int width = 32;
         int height = 32;
-        Pixmap pixmap = createProceduralPixmap(width, height);
+        //Pixmap pixmap = createProceduralPixmap(width, height);
+
         // Create a new texture from pixmap data
-        Texture texture = new Texture(pixmap);
+        Texture texture = new Texture("core/assets/player_hires.png");
         // Create new sprites using the just created texture
         for (int i = 0; i < testSprites.length; i++) {
             Sprite spr = new Sprite(texture);
@@ -99,7 +101,7 @@ public class WorldController extends InputAdapter {
 
     public void update(float deltaTime) {
         handleDebugInput(deltaTime);
-        updateTestObjects(deltaTime);
+        //updateTestObjects(deltaTime);
         cameraHelper.update(deltaTime);
 
     }
@@ -109,10 +111,15 @@ public class WorldController extends InputAdapter {
 
         //Selected Sprite Controlls
         float sprMoveSpeed = 5 * deltaTime;
-        if (Gdx.input.isKeyPressed(Keys.A)) moveSelectedSprite(-sprMoveSpeed, 0);
-        if (Gdx.input.isKeyPressed(Keys.D)) moveSelectedSprite(sprMoveSpeed, 0);
-        if (Gdx.input.isKeyPressed(Keys.W)) moveSelectedSprite(0, sprMoveSpeed);
-        if (Gdx.input.isKeyPressed(Keys.S)) moveSelectedSprite(0, -sprMoveSpeed);
+        //if (Gdx.input.isKeyPressed(Keys.A)) moveSelectedSprite(-sprMoveSpeed, 0);
+        //if (Gdx.input.isKeyPressed(Keys.D)) moveSelectedSprite(sprMoveSpeed, 0);
+        if (Gdx.input.isKeyPressed(Keys.A)) updateTestObjects(deltaTime, 'l');
+        if (Gdx.input.isKeyPressed(Keys.D)) updateTestObjects(deltaTime, 'r');
+        float x = (float) (Math.sin(Math.toRadians(-testSprites[selectedSprite].getRotation())) * sprMoveSpeed);
+        float y = (float) (Math.cos(Math.toRadians(-testSprites[selectedSprite].getRotation())) * sprMoveSpeed);;
+        //testSprites[selectedSprite].getRotation();
+        if (Gdx.input.isKeyPressed(Keys.W)) moveSelectedSprite(x, y);
+        if (Gdx.input.isKeyPressed(Keys.S)) moveSelectedSprite(-x, -y);
 
         //Camera controls (move)
         float camMoveSpeed = 5 * deltaTime;
@@ -145,11 +152,14 @@ public class WorldController extends InputAdapter {
         testSprites[selectedSprite].translate(x, y);
     }
 
-    private void updateTestObjects(float deltaTime) {
+    private void updateTestObjects(float deltaTime, char dir) {
         // Get current rotation from selected sprite
         float rotation = testSprites[selectedSprite].getRotation();
         // Rotate sprite by 90 degrees per second
-        rotation += 90 * deltaTime;
+        if (dir == 'l')
+            rotation += 180 * deltaTime;
+        if (dir == 'r')
+            rotation -= 180 * deltaTime;
         // Wrap around at 360 degrees
         rotation %= 360;
         // Set new rotation value to selected sprite
